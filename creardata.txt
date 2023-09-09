@@ -1,0 +1,26 @@
+CREAR PACIENTE
+
+Url: http://localhost/api-pacientes/pacientes/create
+
+JSON DATA:
+
+{
+  "tipo_documento": "CC",
+  "numero_documento": "123456789",
+  "primer_nombre": "NOMBRE 1 PRUEBA API",
+  "segundo_nombre": "NOMBRE 2 PRUEBA API",
+  "primer_apellido": "APELLIDO 1 PRUEBA API",
+  "segundo_apellido": "APELLIDO 2 PRUEBA API",
+  "fecha_nacimiento": "1996-05-30",
+  "genero": "MASCULINO",
+  "direccion": "CL 100 #10-08",
+  "ciudad": "BOGOTA DC",
+  "departamento": "BOGOTA DC",
+  "telefono": "3156457489",
+  "tipo": "API"
+}
+
+
+VER PACIENTE
+
+http://localhost/api-pacientes/pacientes/CC-123456789
