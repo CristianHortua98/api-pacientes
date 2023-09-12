@@ -1,6 +1,10 @@
-CREAR PACIENTE
+TODOS PACIENTES POST
 
-Url: http://localhost/api-pacientes/pacientes/create
+Url: http://localhost/api-pacientes/
+
+CREAR PACIENTE POST
+
+Url: http://localhost/api-pacientes/
 
 JSON DATA:
 
@@ -21,6 +25,11 @@ JSON DATA:
 }
 
 
-VER PACIENTE
+VER PACIENTE POST
 
-http://localhost/api-pacientes/pacientes/CC-123456789
+http://localhost/api-pacientes/
+
+{
+  "tipo_documento": "CC",
+  "numero_documento": "123456789"
+}

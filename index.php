@@ -4,21 +4,44 @@ require_once "modelos/conexion.php";
 require_once "controladores/pacientes.controlador.php";
 
 $request_method = $_SERVER["REQUEST_METHOD"];
-$url_elements = explode("/", $_GET["url"]);
+
+$input = file_get_contents("php://input");
+$data = json_decode($input, true);
 
 // Rutas y controladores
-switch ($url_elements[0]) {
-    case "pacientes":
-        $paciente = ControladorPacientes::handleRequest($request_method, $url_elements);
-        if(!empty($paciente)){
+
+switch($request_method){
+
+    case "GET": 
+        $paciente = ControladorPacientes::handleRequest($request_method, $process="all");
+        if (!empty($paciente)) {
             http_response_code(200);
             echo json_encode($paciente);
-        }else{
+        } else {
             http_response_code(403);
-            echo json_encode(["respuesta" => "Algo salio mal, no se completo el proceso!"]);
+            echo json_encode(["respuesta" => "No se encuentra ningun Paciente!"]);
         }
         break;
-    default:
-        http_response_code(404);
-        echo json_encode(["error" => "Recurso no encontrado"]);
+
+    case "POST" && !empty($data) && sizeof($data) > 5:
+        $paciente = ControladorPacientes::handleRequest($request_method, $process="create");
+        if (!empty($paciente)) {
+            http_response_code(200);
+            echo json_encode($paciente);
+        } else {
+            http_response_code(403);
+            echo json_encode(["respuesta" => "El Paciente no se pudo crear!"]);
+        }
+        break;
+
+    case "POST" && !empty($data) && sizeof($data) == 2:
+        $paciente = ControladorPacientes::handleRequest($request_method, $process="search");
+        if (!empty($paciente)) {
+            http_response_code(200);
+            echo json_encode($paciente);
+        } else {
+            http_response_code(403);
+            echo json_encode(["respuesta" => "El Paciente no se encontro!"]);
+        }
+        break;
 }

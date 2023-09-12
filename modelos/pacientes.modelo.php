@@ -4,15 +4,34 @@ require_once "conexion.php";
 
 class ModeloPacientes{
 
-    static public function mdlObtenerPaciente($dato){
+    static public function mdlObtenerPacientes(){
 
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM pacientes WHERE CONCAT(tipo_documento,'-',numero_documento) = :dato");
-
-        $stmt->bindParam(":dato", $dato, PDO::PARAM_STR);
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM pacientes");
 
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $stmt = null;
+
+    }
+
+    static public function mdlObtenerPaciente($data){
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM pacientes WHERE CONCAT(tipo_documento,'-',numero_documento) = CONCAT(:tipo_documento,'-',:numero_documento)");
+
+        $stmt->bindParam(":tipo_documento", $data["tipo_documento"], PDO::PARAM_STR);
+        $stmt->bindParam(":numero_documento", $data["numero_documento"], PDO::PARAM_STR);
+
+        if($stmt->execute()){
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+
+        }else{
+
+            return $stmt->errorInfo();
+
+        }
 
         $stmt = null;
 
